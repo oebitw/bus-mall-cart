@@ -2,6 +2,8 @@
 
 'use strict';
 
+let productsCart=[];
+
 // Set up an empty cart for use on this page.
 const cart = new Cart([]);
 
@@ -31,7 +33,13 @@ function handleSubmit(event) {
   addSelectedItemToCart();
   cart.saveToLocalStorage();
   updateCounter();
+  
+  cartPreview.innerHTML='';
   updateCartPreview();
+  
+  localStorage.setItem('cart', JSON.stringify(productsCart));
+  
+
 
 }
 
@@ -47,6 +55,10 @@ function addSelectedItemToCart() {
   quantityEl =parseInt(document.getElementById('quantity').value);
   listEl = document.getElementById('items').value;
   clicks ++;
+
+  const newCartItem = new CartItem(listEl,quantityEl);
+  productsCart.push(newCartItem);
+
 }
 
 // TODO: Update the cart count in the header nav with the number of items in the Cart
@@ -55,15 +67,27 @@ function updateCounter() {
   counter.textContent = `${clicks}`;
 }
 
+let cartPreview=document.getElementById('cartContents');
+
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
   // TODO: Get the item and quantity from the form
   // TODO: Add a new element to the cartContents div with that information
-  let cartPreview=document.getElementById('cartContents');
-  let ulElement = document.createElement('ul');
+  let ulElement;
+  ulElement = document.createElement('ul');
+
   cartPreview.appendChild(ulElement);
-  ulElement.textContent=`${quantityEl} items from ${listEl} `;
-}
+
+  for (let i=0 ; i<productsCart.length; i++){
+
+    
+    let liElement = document.createElement('li');
+    ulElement.appendChild(liElement);
+    liElement.textContent=`YOUR ORDER ${productsCart[i].product} , ${productsCart[i].quantity}`;
+    console.log(`YOUR ORDER ${productsCart[i].product} , ${productsCart[i].quantity}`)
+    // console.log(productsCart)
+  }
+
 
 // Set up the "submit" event listener on the form.
 // This is the trigger for the app. When a user "submits" the form, it will
@@ -73,4 +97,24 @@ catalogForm.addEventListener('submit', handleSubmit);
 
 // Before anything else of value can happen, we need to fill in the select
 // drop down list in the form.
+
+function getData() {
+
+  const data = localStorage.getItem( 'cart' );
+  if ( data ) {
+
+    const objData = JSON.parse( data );
+    productsCart= objData;
+
+    updateCartPreview();
+
+    
+
+  }
+}
+
+
 populateForm();
+
+getData();
+
