@@ -7,7 +7,6 @@ let productsCart=[];
 // Set up an empty cart for use on this page.
 const cart = new Cart([]);
 
-
 // On screen load, we call this method to put all of the busmall options
 // (the things in the Product.allProducts array) into the drop down list.
 function populateForm() {
@@ -29,7 +28,7 @@ function handleSubmit(event) {
   event.preventDefault();
 
   // TODO: Prevent the page from reloading
-  
+
   // Do all the things ...
   addSelectedItemToCart();
   cart.saveToLocalStorage();
@@ -40,6 +39,7 @@ function handleSubmit(event) {
   
   localStorage.setItem('cart', JSON.stringify(productsCart));
   
+
 
 }
 
@@ -68,6 +68,7 @@ function updateCounter() {
 }
 
 let cartPreview=document.getElementById('cartContents');
+
 // TODO: As you add items into the cart, show them (item & quantity) in the cart preview div
 function updateCartPreview() {
   // TODO: Get the item and quantity from the form
@@ -87,7 +88,6 @@ function updateCartPreview() {
     // console.log(productsCart)
   }
 
-}
 
 // Set up the "submit" event listener on the form.
 // This is the trigger for the app. When a user "submits" the form, it will
