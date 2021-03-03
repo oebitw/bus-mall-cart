@@ -3,7 +3,6 @@
 
 let productsCart=[];
 
-n
 // Create an event listener so that when the delete link is clicked, the removeItemFromCart method is invoked.
 const table = document.getElementById('cart');
 table.addEventListener('click', removeItemFromCart);

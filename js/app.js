@@ -17,6 +17,7 @@ Cart.prototype.saveToLocalStorage = function() {
 
   localStorage.setItem('cart', JSON.stringify(this.items));
 
+}
 
 Cart.prototype.removeItem = function(item) {
   // TODO: Fill in this instance method to remove one item from the cart.
@@ -66,3 +67,4 @@ function generateCatalog() {
 // Initialize the app by creating the big list of products with images and names
 
 generateCatalog();
+
