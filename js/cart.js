@@ -1,7 +1,7 @@
 /* global Cart */
 'use strict';
 
-let productsCart=[];
+// let productsCart=[];
 
 // Create an event listener so that when the delete link is clicked, the removeItemFromCart method is invoked.
 const table = document.getElementById('cart');
@@ -20,7 +20,6 @@ function renderCart() {
   clearCart();
   showCart();
 
-  console.log('cart js ', productsCart)
 }
 
 
@@ -29,7 +28,6 @@ function clearCart() {
 
   for (let i=1; i<table.length ; i--){
 
-    console.log(table.rows[i]);
 
     table.deleteRow( table.rows[i] );
 
@@ -50,7 +48,7 @@ function clearCart() {
 function showCart() {
 
   let tBody= document.querySelector('tbody')
-  for(let i=0 ; i<productsCart.length; i++){
+  for(let i=0 ; i<cart.items.length; i++){
   let trElement = document.createElement('tr');
   tBody.appendChild(trElement);
   let tDataOne = document.createElement('td')
@@ -58,10 +56,11 @@ function showCart() {
   tDataOne.textContent= `X`;
   let tDataTwo = document.createElement('td');
   trElement.appendChild(tDataTwo);
-  tDataTwo.textContent=`${productsCart[i].quantity}`
+  tDataTwo.textContent=`${cart.items[i].quantity}`
   let tDataThree = document.createElement('td');
   trElement.appendChild(tDataThree);
-  tDataThree.textContent=`${productsCart[i].product}`;
+  tDataThree.textContent=`${cart.items[i].product}`;
+  
   
 }
 
@@ -76,25 +75,37 @@ function showCart() {
 }
 function removeItemFromCart(event) {
 
-  localStorage.setItem('cart', JSON.stringify(this.items));
+  event.preventDefault();
+  if ( event.target.textContent === 'X' )
+  {
+    let XtabeleData = event.target;
 
+    let deletedRow = XtabeleData.parentNode;
 
-
+    for ( let i = 0 ; i < cart.items.length; i++ )
+    {
+        cart.removeItem( i );
+        // // TODO: Save the cart back to local storage
+        localStorage.setItem( 'cart', JSON.stringify( cart.items ) );
+        deletedRow.remove();
+    }
+  }
   // TODO: When a delete link is clicked, use cart.removeItem to remove the correct item
   // TODO: Save the cart back to local storage
   // TODO: Re-draw the cart table
+  renderCart()
 }
 // This will initialize the page and draw the cart on screen
 
-function getData() {
-  const data = localStorage.getItem( 'cart' );
-  if ( data ) {
-    const objData = JSON.parse( data );
-    productsCart= objData;
+// function getData() {
+//   const data = localStorage.getItem( 'cart' );
+//   if ( data ) {
+//     const objData = JSON.parse( data );
+//     productsCart= objData;
 
-    renderCart();
+//     renderCart();
 
-  }
-}
-getData();
-
+//   }
+// }
+// getData();
+renderCart();
